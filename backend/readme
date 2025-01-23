@@ -1,0 +1,169 @@
+# Book Management API
+
+This is a RESTful API for managing a collection of books. It supports operations like adding, updating, deleting, fetching books, and provides advanced features like pagination, search, and sorting.
+
+---
+
+## **Features**
+- Add a new book.
+- Fetch all books with pagination, search, and sorting.
+- Fetch a specific book by its ID.
+- Update book information by ID.
+- Delete a book by ID.
+
+---
+
+## **Technologies Used**
+- **Node.js**
+- **Express.js**
+- **MongoDB** (with Mongoose)
+
+---
+
+## **Setup Instructions**
+
+### Prerequisites
+- Node.js installed
+- MongoDB instance running locally or on the cloud
+
+
+
+## **API Endpoints**
+
+### 1. **Add a New Book**
+**POST** `/api/books`
+- **Description**: Add a new book to the collection.
+- **Request Body**:
+  ```json
+  {
+      "title": "Harry Potter",
+      "author": "J.K. Rowling",
+      "isbn": "9780439139601",
+      "publicationDate": "12-07-1999"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+      "_id": "64f3f9c2ab1234",
+      "title": "Harry Potter",
+      "author": "J.K. Rowling",
+      "isbn": "9780439139601",
+      "publicationDate": "1999-07-12T00:00:00.000Z"
+  }
+  ```
+
+---
+
+### 2. **Fetch All Books**
+**GET** `/api/books`
+- **Description**: Retrieve a list of books with support for pagination, search, and sorting.
+- **Query Parameters**:
+   Parameter    Type     Description                                       Default     
+ 
+   `page`       Number   Page number                                       `1`         
+   `limit`      Number   Number of books per page                          `10`        
+   `search`     String   Search term to filter by `title` or `author`    `undefined` 
+   `sortBy`     String   Field to sort by (e.g., `title`, `publicationDate`)  `title`     
+   `order`      String   Sort order (`asc` or `desc`)                      `asc`       
+
+- **Response**:
+  ```json
+  {
+      "success": true,
+      "message": "Books fetched successfully",
+      "data": [
+          {
+              "id": "64f3f9c2ab1234",
+              "title": "Harry Potter",
+              "author": "J.K. Rowling",
+              "isbn": "9780439139601",
+              "publicationDate": "1999-07-12T00:00:00.000Z"
+          }
+      ],
+      "totalBooks": 100,
+      "currentPage": 1,
+      "totalPages": 10
+  }
+  ```
+
+---
+
+### 3. **Fetch a Specific Book**
+**GET** `/api/books/:id`
+- **Description**: Fetch details of a specific book by its ID.
+- **Response**:
+  ```json
+  {
+      "success": true,
+      "message": "Book fetched successfully.",
+      "data": {
+          "id": "64f3f9c2ab1234",
+          "title": "Harry Potter",
+          "author": "J.K. Rowling",
+          "isbn": "9780439139601",
+          "publicationDate": "1999-07-12T00:00:00.000Z"
+      }
+  }
+  ```
+
+---
+
+### 4. **Update Book Information**
+**PUT** `/api/books/:id`
+- **Description**: Update the details of a specific book by its ID.
+- **Request Body**:
+  ```json
+  {
+      "title": "Harry Potter and the Philosopher's Stone"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+      "_id": "64f3f9c2ab1234",
+      "title": "Harry Potter and the Philosopher's Stone",
+      "author": "J.K. Rowling",
+      "isbn": "9780439139601",
+      "publicationDate": "1999-07-12T00:00:00.000Z"
+  }
+  ```
+
+---
+
+### 5. **Delete a Book**
+**DELETE** `/api/books/:id`
+- **Description**: Delete a book by its ID.
+- **Response**:
+  ```json
+  {
+      "message": "Book deleted successfully."
+  }
+  ```
+
+---
+
+## **Error Handling**
+- **400 Bad Request**: Missing or invalid fields in the request body.
+- **404 Not Found**: Book not found for the given ID.
+- **500 Internal Server Error**: Unexpected server-side error.
+
+---
+
+## **Example Queries**
+
+1. **Fetch Page 2 with 5 Books Per Page**:
+   ```bash
+   GET /api/books?page=2&limit=5
+   ```
+
+2. **Search for Books with "Rowling" in Title or Author**:
+   ```bash
+   GET /api/books?search=Rowling
+   ```
+
+3. **Sort Books by Publication Date in Descending Order**:
+   ```bash
+   GET /api/books?sortBy=publicationDate&order=desc
+   ```
+
